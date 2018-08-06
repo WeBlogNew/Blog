@@ -1,0 +1,130 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: mahsin
+  Date: 18-4-11
+  Time: 上午9:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <style type="text/css">
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: darkgrey;
+        }
+    </style>
+    <script src="../../../resource/js/common/jquery-2.1.1.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="span12">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">WEBLOG</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/index">首页</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${basePath}/member/login">登录</a></li>
+                    <li><a href="${basePath}/member/register">注册</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="animated fadeInDown">
+    <div class="row login-panel">
+        <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="ibox-content">
+                    <h2 class="font-bold">忘记密码</h2>
+                    <form class="m-t jeesns_form" action="${basePath}/member/forgetpwd" method="post">
+                        <div class="form-group">
+                            用户名
+                            <input type="text" class="form-control" name="name" data-type="require" placeholder="用户名">
+                        </div>
+                        <div class="form-group">
+                            邮箱
+                            <input type="email" class="form-control" name="email" placeholder="邮箱" data-type="require,email">
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width m-b">找回密码</button>
+                        <p></p>
+                        <p class="text-muted text-center">
+                            <a href="login">我要登录</a> |
+                            <a href="register">我要注册</a>
+                        </p>
+                    </form>
+                    <p></p>
+                </div>
+            </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="container-fluid">
+    <div class="footer">
+        <div style="text-align: center">
+            <br>
+            <br>
+            Design by llp
+        </div>
+    </div>
+</div>
+</body>
+</html>

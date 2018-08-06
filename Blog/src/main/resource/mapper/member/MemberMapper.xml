@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeFarmer.dao.member.IMemberDao">
+    <resultMap id="MemberResult" type="Member">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="curr_login_time" jdbcType="TIMESTAMP" property="currLoginTime" />
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="is_active" jdbcType="INTEGER" property="isActive" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+        <result column="addprovince" jdbcType="VARCHAR" property="addprovince" />
+        <result column="addcity" jdbcType="VARCHAR" property="addcity" />
+        <result column="addarea" jdbcType="VARCHAR" property="addarea" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="qq" jdbcType="VARCHAR" property="qq" />
+        <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+        <result column="contact_email" jdbcType="VARCHAR" property="contactEmail" />
+        <result column="website" jdbcType="VARCHAR" property="website" />
+        <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+        <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
+        <result column="follows" jdbcType="INTEGER" property="follows" />
+        <result column="fans" jdbcType="INTEGER" property="fans" />
+    </resultMap>
+
+
+    <!-- 会员登录 -->
+    <select id="login" parameterType="Member" resultMap="MemberResult">
+        select
+        id,name,email,phone,sex,avatar,is_admin,status,is_active
+        from tbl_member
+        where (name = #{name} or email = #{name}) and password = #{password}
+    </select>
+
+    <!-- 根据ID查找 -->
+    <select id="findById" parameterType="java.lang.Integer" resultMap="MemberResult">
+        select * from tbl_member where id = #{id}
+    </select>
+
+    <!-- 根据昵称查找 -->
+    <select id="findByName" resultMap="MemberResult">
+        select * from tbl_member where name = #{name}
+    </select>
+
+    <!-- 登录成功后修改相关信息 -->
+    <update id="loginSuccess">
+        update tbl_member set last_login_time=curr_login_time,curr_login_time=now() where id = #{id}
+    </update>
+
+    <!-- 根据邮箱查找 -->
+    <select id="findByEmail"  resultMap="MemberResult">
+        select * from tbl_member where email = #{email}
+    </select>
+
+    <!-- 根据昵称和邮箱查找 -->
+    <select id="findByNameAndEmail" resultMap="MemberResult">
+        select * from tbl_member where name = #{name} and email = #{email}
+    </select>
+
+    <update id="changepwd">
+        update tbl_member set password=#{password} WHERE id=#{id}
+    </update>
+
+    <!-- 注册 -->
+    <insert id="register" parameterType="Member" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_member (name, email, password, avatar, create_time,curr_login_time)
+        values (#{name}, #{email}, #{password}, #{avatar}, now(),now())
+    </insert>
+
+    <!-- 删除账户 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from tbl_member where id = #{id}
+    </delete>
+
+
+    <!-- 会员列表 -->
+    <select id="listByPage" resultMap="MemberResult">
+        select
+        a.id, a.name, a.phone, a.email, a.create_time, a.status,a.is_admin from tbl_member a
+        <where>
+            <if test="key != null and key != ''">
+                and (a.name LIKE #{key} or a.phone like #{key} or email like #{key})
+            </if>
+        </where>
+        order by a.id DESC
+    </select>
+
+    <!-- 更新头像 -->
+    <update id="updateAvatar">
+        update tbl_member set avatar=#{avatar} WHERE id=#{id}
+    </update>
+
+    <!-- 修改基本信息 -->
+    <update id="editBaseInfo" parameterType="Member">
+        update tbl_member
+        <set>
+            name=#{name},sex=#{sex},introduce=#{introduce}
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 修改会员其他信息 -->
+    <update id="editOtherInfo" parameterType="Member">
+        update tbl_member
+        <set>
+            birthday=#{birthday},qq=#{qq},wechat=#{wechat},contact_phone=#{contactPhone},contact_email=#{contactEmail},website=#{website}
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 关注后修改会员关注数 -->
+    <update id="follows">
+        update tbl_member set follows=(select COUNT(*) FROM tbl_member_fans where who_follow=#{id}) where id = #{id}
+    </update>
+
+    <!-- 关注后修改会员粉丝数 -->
+    <update id="fans">
+        update tbl_member set fans=(select COUNT(*) FROM tbl_member_fans where follow_who=#{id}) where id = #{id}
+    </update>
+
+</mapper>
